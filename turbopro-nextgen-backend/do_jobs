@@ -1,0 +1,126 @@
+func0() {
+mysql -u root --password=passTurbo2023 nextgen <<!
+SELECT jobHis.jobNumber, jobHis.jobName, jobHis.jobOpenedDate , jobHis.BidDate,
+       js.jobStatus, jobHis.joMasterID
+FROM jobHistory jobHis
+    JOIN (SELECT MAX(jobHistoryID) as jobHisID FROM jobHistory
+          GROUP BY jobNumber,tsUserLoginID) jh ON jobHis.jobHistoryID = jh.jobHisID
+    LEFT JOIN joMaster jm on jobHis.joMasterID = jm.joMasterID
+    LEFT JOIN joStatus js on js.joStatusID = jm.jobStatus
+where tsUserLoginID = 5 AND
+      jobHis.joMasterID>0 AND
+      jobHis.jobNumber<> 'null'
+ORDER BY jobHis.jobHistoryID DESC LIMIT 0, 25;
+!
+}
+
+
+func1() {
+mysql -u root --password=passTurbo2023 nextgen <<!
+SELECT m.jobNumber, max(Description) description, max(h.jobOpenedDate), max(h.BidDate), max(s.jobStatus),
+       max(h.jobHistoryId) h1
+FROM joMaster m, joStatus s, jobHistory h
+where m.jobStatus = s.joStatusId and
+m.JobNumber = h.jobNumber and
+tsUserLoginId = 5
+group by m.jobNumber
+ORDER BY h1 DESC LIMIT 0, 25;
+!
+}
+
+func2() {
+mysql -u root --password=passTurbo2023 nextgen <<!
+SELECT jobNumber, jobName, MAX(jobHistoryID) 
+FROM jobHistory
+GROUP BY jobNumber
+ORDER BY MAX(jobHistoryID) DESC
+LIMIT 10;
+!
+}
+
+func3() {
+mysql -u root --password=passTurbo2023 nextgen <<!
+SELECT t.EmailName
+from joRelease r, joMaster m, vePO v, tsUserLogin t
+where r.joMasterId = m.joMasterId and
+r.joReleaseID = v.joReleaseID and
+v.OrderedById = t.UserLoginId and
+m.jobNumber = 'WLB201102';
+!
+}
+
+func4() {
+mysql -u root --password=passTurbo2023 nextgen <<!
+SELECT vePODetailID,
+       p.Description,
+       v.Description,
+       Note,
+       QuantityOrdered,
+       QuantityReceived,
+       QuantityBilled,
+       UnitCost,
+       PriceMultiplier,
+       Taxable,
+       EstimatedShipDate,
+       joSchedDetailID,
+       Acknowledged,
+       AcknowledgementDate,
+       VendorOrderNumber,
+       cuSODetailID,
+       posistion,
+       QuantityInvoiced
+from vePODetail v, prMaster p
+where p.prMasterId = v.prMasterId and
+vePOID = 152339;
+!
+}
+
+func5() {
+mysql -u root --password=passTurbo2023 nextgen <<!
+SELECT Name, Address1, Address2, City, State, Zip
+from vePO v, rxAddress a
+where rxShipToAddressID = a.rxAddressId and
+      vePOId = 152688;
+!
+}
+
+func6() {
+mysql -u root --password=passTurbo2023 nextgen <<!
+SELECT c.Name, sp.Allocated, r.joReleaseId
+  from joMaster m
+  LEFT JOIN joRelease r ON m.joMasterID = r.joMasterID
+  LEFT JOIN ecSplitJob sp ON sp.joReleaseID = r.joReleaseID
+  LEFT JOIN rxMaster c ON c.rxMasterId = sp.rxMasterID
+  where m.JobNumber = 'WLB191103'
+  order by r.joReleaseId desc
+!
+}
+
+func7() {
+mysql -u root --password=passTurbo2023 nextgen <<!
+select @id := joMasterId from joMaster where JobNumber = 'WLB191103';
+select CustomerPONumber, ChangeAmount amt
+             from joChange
+	     where joMasterId = @id
+             UNION
+             select CustomerPONumber, ContractAmount amt from joMaster
+             where joMasterId = @id
+             UNION
+             select CustomerPONumber1 CustomerPONumber, POAmount1 amt from joCustPO
+             where joMasterId = @id and POAmount1 > 0
+             UNION
+             select CustomerPONumber2 CustomerPONumber, POAmount2 amt from joCustPO
+             where joMasterId = @id and POAmount2 > 0
+             UNION
+             select CustomerPONumber3 CustomerPONumber, POAmount3 amt from joCustPO
+             where joMasterId = @id and POAmount3 > 0
+             UNION
+             select CustomerPONumber4 CustomerPONumber, POAmount4 amt from joCustPO
+             where joMasterId = @id and POAmount4 > 0
+             UNION
+             select CustomerPONumber5 CustomerPONumber, POAmount5 amt from joCustPO
+             where joMasterId = @id and POAmount5 > 0
+!
+}
+
+func6

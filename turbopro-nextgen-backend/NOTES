@@ -1,0 +1,37 @@
+Implementation Notes
+--------------------
+
+1. Routes code:
+
+   Use JobDetails.js as model. This is after a lot of refactoring and extraction
+   of boilerplate code into mainFunc.js. As we get time, we should update the old
+   routes to the new model. Also the code generator in SQL can be updated to spit out
+   the new format.
+
+2. ToDo:
+
+   TP_Todo.sql has table definitions.  TODO_ASSIGNABLE table not used. 
+   Not needed. Can be accomplished with reusing TODO_ASSIGNMENT with TODO_id = 0
+
+
+3. Chat:
+
+   Uses websocket feature of express. Dumb implementation that simply rebroadcasts
+   all messages received. The real smarts is in the Client only. Payload can be enhanced
+   with advanced features such as DMs etc. Possible enhancement on server side is tracking
+   user presence.
+
+4. jobDetails.js:
+
+   /getReleases query is heavily influenced from the legacy system. This is doing
+   more than necessary and may be causing a slow down (legacy releases tab has a
+   huge delay). We can pare down unused fields and joins when PO/SO order and
+   Bill/Invoice features are completed.
+
+5. Authentication & Authorization:
+
+   No authorization is done on incoming requests. We can keep the service behind the
+   firewall (port 3000 inaccessible from outside) and save the headache of authentication
+   & authorization.
+
+6. -

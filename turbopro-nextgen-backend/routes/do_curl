@@ -1,0 +1,15 @@
+# curl http://localhost:3000/jobDetails/getCustInfo?job=WLB211001
+# curl http://localhost:3000/binController/getSummary
+# curl http://localhost:3000/binController/getDetail?item=GIGDS20202
+# curl http://localhost:3000/jobDetails/getManf
+# curl -s http://localhost:3000/jobDetails/getReleases?job=WLB191103
+# curl http://localhost:3000/jobDetails/getInfo?job=189284
+# curl http://localhost:3000/jobDetails/getCustPO?job=WLB191103
+# curl http://localhost:3000/jobDetails/getContacts?job=WLB191103
+# curl http://localhost:3000/jobDetails/getAssignees?job=WLB191103
+# curl http://localhost:3000/jobDetails/getCustPO2?job=WLB191103
+# curl http://localhost:3000/jobDetails/getAddress?id=170239
+# curl http://localhost:3000/jobDetails/getPODetail?po=152339
+# curl http://localhost:3000/jobDetails/getSplits?job=WLB191103
+# curl http://localhost:3000/jobDetails/getTodoAssignees
+curl http://localhost:3000/jobDetails/getTodo

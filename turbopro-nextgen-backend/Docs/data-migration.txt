@@ -1,0 +1,15 @@
+Step 1. First dump schema
+
+    Use dump_schema.sh in scripts folder
+
+Step 2. Restore schema
+
+    Use restore_schema.sh in scripts folder
+
+Step 3. Dump data
+
+    Use dump_data.sh in scripts folder
+
+Step 4. Restore data
+
+    Use restore_data.sh in scripts folder
